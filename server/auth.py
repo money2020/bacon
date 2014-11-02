@@ -40,11 +40,11 @@ class SMSAuth(SocialAuth):
         SocialAuth.__init__(self, data)
         self.client = self.TwilioRestClient(self.data['account_sid'], self.data['auth_token'])
         self.sms_status = "unverified"
+        self.sms_status2 = "unverified"
 
     def verify(self, request=None):
-
-        global sms_status
-        sms_status = "unverified"
+        self.sms_status = "unverified"
+        self.sms_status2 = "unverified"
 
         message = self.client.messages.create(
                     body='Hi Lucas, confirming your purchase of $149.99. Please reply with a YES or NO.',
@@ -73,26 +73,31 @@ class SMSAuth(SocialAuth):
     def gateway(self, request=None):
         print request.form
         if request.form['Body'].lower() == 'yes':
-            global sms_status
-            sms_status = "ok"
-            # Tell Nick that all is good
+            self.sms_status = "ok"
+            self.sms_status2 = "ok"
+            # Tell Nick that all is good - this is done through status2()
             # Tell Feedzai that all is good
-            # Redirect user to complete page (sockets)
+            # Redirect user to complete page (sockets) - this is done through status()
             print "good guy"
         else:
-            global sms_status
-            sms_status = "fraud"
-            # Tell Nick that all is bad
+            self.sms_status = "fraud"
+            self.sms_status2 = "fraud"
+            # Tell Nick that all is bad - this is done through status2()
             # Tell Feedzai that all is bad
-            # Redirect user to failed page (sockets)
+            # Redirect user to failed page (sockets) - this is done through status()
             print "bad guy"
         return ''
 
     def status(self, request=None):
-        global sms_status
-
-        if sms_status == "ok":
-            sms_status = "unverified"
+        if self.sms_status == "ok":
+            self.sms_status = "unverified"
             return jsonify(status="ok")
 
-        return jsonify(status=sms_status)
+        return jsonify(status=self.sms_status)
+
+    def status2(self, request=None):
+        if self.sms_status2 == "ok":
+            self.sms_status2 = "unverified"
+            return jsonify(status="ok")
+
+        return jsonify(status=self.sms_status2)
