@@ -30,6 +30,8 @@ angular.module('utils', [
         angular.copy object
         # JSON.parse JSON.stringify object
 
+    randomInt = (min, max) ->
+        Math.random() * (max - min) + min
 
     chunk = (array, size) ->
         result = []
@@ -89,6 +91,7 @@ angular.module('utils', [
         clamp
         promiseTimer
         dateRange
+        randomInt
         object: ObjectUtils
         function: FnUtils
         uuid: uuid

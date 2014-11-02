@@ -19,32 +19,28 @@ html(ng-app="money2020.bacon")
     block top-scripts
       mixin js-lib("jquery")
       mixin js-lib("angular")
+      mixin js-lib("matter")
+      mixin js-lib("jquery.box2d")
 
-
-  body(ng-controller="MainController")
+  body
 
     header
-      .top-bar
-        a(ng-href="/"): .logo
-        h1 Bacon
-      article.profile
+      h1 Bacon {{ route.current.template }}
 
     main(ng-view)
-
 
     block bottom-scripts
       mixin js-lib("lodash")
 
       mixin js-lib("angular.route")
+      mixin js-lib("angular.animate")
       mixin js-lib("angular.promisetracker")
 
-      mixin app-core("modules/utils/module-utils-url")
       mixin app-core("modules/utils/module-utils-function")
       mixin app-core("modules/utils/module-utils-object")
       mixin app-core("modules/utils/module-utils")
-      mixin app-core("modules/object-watcher")
+      mixin app-core("modules/module-transactions")
+      mixin app-core("modules/module-auth")
 
       mixin app-core("app")
       mixin app-core("router")
-
-      mixin app-controller("main")

@@ -1,5 +1,5 @@
 
-$header-height: 40px;
+$header-height: 70px;
 $footer-height: 0px;
 $sidebar-width: 250px;
 
@@ -24,8 +24,10 @@ body {
 
 body > header {
     position: absolute;
-    top: 0; left: 0; right: 0;
+    top: 0px; left: 0; right: 0;
     height: $header-height;
+    border-top: 1px solid $navy;
+    box-shadow: 0px 1px 0px darken($navy, 5%);
 }
 
 body > main {

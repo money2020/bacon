@@ -236,7 +236,6 @@ module.exports = (grunt) ->
         'coffee:dev'
         'copy:static'
         'copy:js_libs_dev'
-        'symlink:config'
         'banner'
     ]
 
@@ -251,7 +250,6 @@ module.exports = (grunt) ->
         'cssmin:prod'
         'clean:tmp'
         'cacheBust'
-        'symlink:config'
     ]
 
     grunt.task.registerTask 'banner', 'prints the banner', ->

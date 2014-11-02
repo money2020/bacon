@@ -2,9 +2,13 @@
 angular.module('money2020.bacon', [
     'ng'
     'ngRoute'
+    'ngAnimate'
     'ajoslin.promise-tracker'
 
     'utils'
+    'money2020.bacon.router'
+    'money2020.bacon.transactions'
+    'money2020.bacon.auth'
 ])
 
 
@@ -23,4 +27,5 @@ angular.module('money2020.bacon', [
     delete $httpProvider.defaults.headers.common['X-Requested-With']
 
 
-.run ($log) ->
+.run ($rootScope, $route) ->
+    $rootScope.route = $route

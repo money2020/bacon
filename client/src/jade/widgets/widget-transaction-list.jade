@@ -1,0 +1,7 @@
+
+article.transaction-list
+    h1 {{ state.label }}
+    h2 {{ state.stats.count }}
+    ul: li.transaction-list-item(ng-class="{fallanimation:animate}"
+           ng-repeat="(id, transaction) in state.transactions")
+        | {{ transaction.id }}

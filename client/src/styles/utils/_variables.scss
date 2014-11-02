@@ -7,7 +7,7 @@ $lighter-grey: #f9f9fa;
 $light-grey  : #c4ccce;
 $mid-grey    : #9eabaf;
 $dark-grey   : #73838e;
-$darker-grey : #555d60;
+$darker-grey : #373b43;
 
 $red                   : #a8294d;
 $light-red             : lighten($red, 15%);
@@ -18,12 +18,12 @@ $blue                  : #2999FF;
 $light-blue            : lighten($blue, 15%);
 $yellow                : #ffd44a;
 $light-yellow          : lighten($yellow, 5%);
-$navy                  : #242a33;
+$navy                  : lighten(#242a33, 2%);
 $light-navy            : lighten($navy, 5%);
 
 $body-text-color       : #555;
-$body-background-color : darken($lighter-grey, 2%);
-$border-color          : darken(#e9eaed, 3%);
+$body-background-color : #e4e7eb;
+$border-color          : #373b43;
 $border                : 1px solid $border-color;
 
 
@@ -41,5 +41,5 @@ $z-cloak    : -1;
 
 // typography
 
-$font-stack : 'open sans', helvetica, arial, sans-serif;
+$font-stack : 'Source Sans Pro', helvetica, arial, sans-serif;
 $icon-stack : 'entypo';
