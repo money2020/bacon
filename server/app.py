@@ -12,14 +12,14 @@ from flask import Flask, jsonify, make_response, request, redirect
 debug_mode = True
 app_name = 'Bacon'
 
-app = Flask(__name__, static_folder='static', static_url_path='')
+app = Flask(__name__, static_folder='../client/build', static_url_path='')
 auths = {}
 feedzai = None
 
 
 @app.route('/')
 def home():
-    return jsonify(page=home.__name__)
+    return make_response(open('../client/build/index.html').read())
 
 
 @app.route('/cart')
@@ -28,6 +28,9 @@ def cart():
 
     return make_response(open('templates/checkout.html').read())
 
+@app.route('/success')
+def success():
+    return make_response(open('templates/checkout-ok.html').read())
 
 @app.route('/checkout')
 def checkout():
@@ -55,7 +58,7 @@ def checkout():
         response = make_response(open('templates/checkout-fraud.html').read())
     else:
         risk_state = "sketchy"
-        response = redirect('/auth/SMSAuth/verify')
+        response = redirect('/auth/SMSAuth/process/' + str(risk_score))
 
     notify = {
         'id': risk_id,
@@ -103,7 +106,8 @@ if __name__ == '__main__':
     twilio = {
         'account_sid': str(os.getenv('TWILIO_ACC_SID', 'AC00000000000000000000000000000000')),
         'auth_token': str(os.getenv('TWILIO_AUTH_TOKEN', '00000000000000000000000000000000')),
-        'from_phone': str(os.getenv('TWILIO_PHONE', '+18888888888'))
+        'from_phone': str(os.getenv('TWILIO_PHONE', '+18888888888')),
+        'your_phone': str(os.getenv('YOUR_PHONE', '+18888888888'))
     }
     auths['SMSAuth'] = SMSAuth(twilio)
     auths['FacebookPassiveAuth'] = FacebookPassiveAuth({})

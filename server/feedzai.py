@@ -27,4 +27,4 @@ class Feedzai:
 			output = self._request('payments', data)
 			return json.loads(output.text)
 		except Exception as e:
-			return {"error": e.value}
+			return {"error": e}

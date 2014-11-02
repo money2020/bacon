@@ -1,3 +1,203 @@
-<form action="/auth/SMSAuth/process" method="post">
-Phone: <input type="text" name="phone" /> <input type=submit value="sms verify me" />
-</form>
+
+<!DOCTYPE html>
+<!--[if IE 9]><html class="no-js ie9" lang="en"><![endif]-->
+<!--[if gt IE 9]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <title>Identity Verification Required</title>
+  
+  
+  <link rel="shortcut icon" href="//www.fiftythree.com/favicon.ico" type="image/x-icon" />
+  <link rel="icon" href="//www.fiftythree.com/favicon.ico" type="image/x-icon" />
+  <meta property="og:image" content="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/app-icon.png?4885" />
+  <link rel="canonical" href="http://shop.fiftythree.com/cart" />
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/modernizr-2.0.6.min.js?4885" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  <![endif]-->
+  <!--[if gte IE 9]><!-->
+    <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/jquery.min.js?4885" type="text/javascript"></script>
+  <!--<![endif]-->
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/hammer.min.js?4885" type="text/javascript"></script>
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/jquery.hammer.min.js?4885" type="text/javascript"></script>
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/jquery.placeholder.min.js?4885" type="text/javascript"></script>
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/jquery.rotate.min.js?4885" type="text/javascript"></script>
+  <link href="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/all.css?4885" rel="stylesheet" type="text/css"  media="all"  />
+  <script>
+//<![CDATA[
+      var Shopify = Shopify || {};
+      
+      Shopify.theme = {"name":"FiftyThree","id":4984629,"theme_store_id":null,"role":"main"};
+
+//]]>
+</script>
+
+
+
+<script id="__st">
+//<![CDATA[
+var __st={"a":2458513,"offset":-14400,"reqid":"4ead0c97-dca8-40b1-99ec-a06c63b959b4","pageurl":"shop.fiftythree.com/cart","t":"prospect","u":"e1bbe2eeb91e"};
+//]]>
+</script>
+<script type="text/javascript" src="//cdn.shopify.com/s/global/ga_urchin_forms.js?cfbb359ca913cc1b12c83c42782c69bc3543f44e"></script>
+  <script src="//cdn.shopify.com/s/shopify/api.jquery.js?cfbb359ca913cc1b12c83c42782c69bc3543f44e" type="text/javascript"></script>
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/doT.min.js?4885" type="text/javascript"></script>
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/jquery-ui-1.10.3.custom.min.js?4885" type="text/javascript"></script>
+  <script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/cart.min.js?4885" type="text/javascript"></script>
+  <!--[if lt IE 9]>
+    <script>
+      var lt_ie9 = true;
+    </script>
+  <![endif]-->
+  <script>
+    if ((typeof(lt_ie9) != 'undefined' && lt_ie9) | location.search.toLowerCase() === '?ie') {
+      location.href = '/pages/unsupported-browser';
+    }
+    $(function() {
+      $('input, textarea').placeholder();
+    });
+  </script>
+  <script>
+    function foo() {
+        // alert('hello');
+        window.location.href = '/checkout';
+        //window.location.replace("http://stackoverflow.com");
+    }
+  </script>
+</head>
+<body>
+  <!--<header class="page-header">
+    <div class="header-grid-outer">
+      <div class="header-grid-inner">
+        <a class="logo-wrapper" href="http://www.fiftythree.com"><img class="logo" src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/53-dark.svg?4885" onerror="this.onerror=null; this.src='http://www.fiftythree.com/assets/images/logos/53-64x64-dark.png'" /></a>
+
+        <button id="nav-toggle-button" class="navigation-list-toggle-button"></button>
+
+        <nav id="nav-toggle-menu" class="navigation-list">
+          <ul class="nav-list">
+            <li><a href="http://www.fiftythree.com/paper">paper</a></li>
+            <li><a href="http://www.fiftythree.com/pencil">pencil</a></li>
+            <li><a href="http://mix.fiftythree.com">Mix</a></li>
+            <li><a href="http://www.fiftythree.com/book">book</a></li>
+            <li><a href="http://shop.fiftythree.com">Shop</a></li>
+            <li class="download-paper"><a href="http://itunes.apple.com/us/app/paper-by-fiftythree/id506003812?mt=8&amp;at=1l3v9Qw&amp;ct=site" target="_blank">Download</a></li>
+            <li class="social fb"><a class="icon-social icon-facebook-dark" href="http://www.facebook.com/FiftyThreeInc" target="_blank">Facebook</a></li>
+            <li class="social tw"><a class="icon-social icon-twitter-dark" href="http://www.twitter.com/FiftyThree" target="_blank">Twitter</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>-->
+
+  <section class="shop-nav">
+  <div class="inner-section">
+    <div class="shop-nav-wrap">
+      <nav class="bread">
+        <ul>
+          <li><a href="/">Checkout <i class="chevron chevron-text chevron-black chevron-medium"></i></a></li>
+          <li><a class="active" href=".">Verification</a></li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section>
+
+
+
+<article class="cart">
+  <div class="inner-article">
+    <div class="row">
+
+      <form action="/cart" method="post" id="cartform">
+
+        <h1>Identity Verification Required</h1>
+
+        <fieldset class="empty">
+          <p align="left" style="margin-right: 100px; margin-left:100px;">Thank you for helping us keep your account safe.</p>
+          <p align="left" style="margin-right: 100px; margin-left:100px;">We've sent you an SMS message. Please reply "YES" to confirm your purchase.</p>
+          <br />
+          <a class="btn primary" href="/">Waiting for verification...</i></a>
+        </fieldset>
+
+ 		<script>
+
+ 		function checkStatus() {
+ 			$.get('/auth/SMSAuth/status', function (data) {
+ 				console.log("sms status:", data);
+ 				if (data.status === "ok") {
+ 					window.location.href = "/success"	
+ 				} else if (data.status === "fraud") {
+ 					window.location.href = "/gtfo"
+ 				}
+ 				setTimeout(checkStatus, 0);
+ 			});
+ 		}
+
+ 		checkStatus();
+
+ 		</script>
+      
+
+      </form>
+    </div>
+  </div>
+</article>
+
+
+
+
+</div>
+	
+
+
+
+  <footer class="page-footer">
+    <div class="footer-container">
+      <div class="footer-inner">
+        <div class="logo-wrapper">
+
+        </div>
+        <nav>
+          <div class="links-wrapper">
+            <ul class="links products">
+              <li><a href="http://www.fiftythree.com/paper">Watches</a></li>
+              <li><a href="http://www.fiftythree.com/pencil">Ties</a></li>
+              <li><a href="http://mix.fiftythree.com">Bacon</a></li>
+              <li><a href="http://www.fiftythree.com/book">Literature</a></li>
+            </ul>
+            <ul class="links blogs">
+              <li><a href="http://news.fiftythree.com">News</a></li>
+              <li><a href="http://making.fiftythree.com">Making</a></li>
+              <li><a href="http://madewithpaper.fiftythree.com">Made&thinsp;With&thinsp;Paper</a></li>
+            </ul>
+            <ul class="links contact">
+              <li><a href="http://shop.fiftythree.com">Shop</a></li>
+              <li><a href="http://support.fiftythree.com">Support</a></li>
+              <li><a href="http://www.fiftythree.com/contact">Contact</a></li>
+            </ul>
+            <ul class="links about-us">
+              <li><a href="http://www.fiftythree.com/about">About</a></li>
+              <li><a href="http://www.fiftythree.com/jobs">Jobs</a></li>
+            </ul>
+          </div>
+        </nav>
+        <div class="copyright-info">
+          <span class="made-in">Made in New York City and San Francisco.</span>
+          <span class="copyright">© 2014 Bacon, Inc.</span>
+          <ul class="copyright-links">
+            <li class="terms"><a href="http://www.fiftythree.com/terms">Terms of Service</a></li>
+            <li class="privacy"><a href="http://www.fiftythree.com/privacy">Privacy Policy</a></li>
+            <li class="legal"><a href="http://www.fiftythree.com/legal">Legal</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+<script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/responsive.js?4885" type="text/javascript"></script>
+<script src="//cdn.shopify.com/s/files/1/0245/8513/t/7/assets/dialogs.min.js?4885" type="text/javascript"></script>
+
+</body>
+</html>
