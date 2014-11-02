@@ -4,6 +4,8 @@ import time
 from flask import jsonify, redirect, session
 from flask_oauth import OAuth
 
+
+
 class SocialAuth:
 
     def __init__(self, data):
@@ -55,15 +57,21 @@ class FacebookPassiveAuth(SocialAuth):
         return redirect(request.referrer or '/')
 
     @facebook.authorized_handler
-    def facebook_authorized(self, resp):
+    def facebook_authorized(resp, self, request):
         if resp is None:
             return 'Access denied: reason=%s error=%s' % (
                 request.args['error_reason'],
                 request.args['error_description']
             )
         session['oauth_token'] = (resp['access_token'], '')
+
         me = self.facebook.get('/me')
-        return str(me)
+
+        # pull information needed from FB
+        # do some math
+        # let Nick, Dashboard and Feedzai know
+        print me.__dict__
+        return str(me.__dict__)
         #return redirect('/')
 
     @facebook.tokengetter
