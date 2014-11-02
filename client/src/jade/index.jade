@@ -1,0 +1,50 @@
+
+include mixins/asset-mixins
+include mixins/asset-mixins-angular
+
+
+!!!
+html(ng-app="money2020.bacon")
+
+  head
+    title Bacon App
+
+    block meta
+      include includes/mobile-meta-tags
+      meta(charset="utf-8")
+
+    block css
+      mixin css("default")
+
+    block top-scripts
+      mixin js-lib("jquery")
+      mixin js-lib("angular")
+
+
+  body(ng-controller="MainController")
+
+    header
+      .top-bar
+        a(ng-href="/"): .logo
+        h1 Bacon
+      article.profile
+
+    main(ng-view)
+
+
+    block bottom-scripts
+      mixin js-lib("lodash")
+
+      mixin js-lib("angular.route")
+      mixin js-lib("angular.promisetracker")
+
+      mixin app-core("modules/utils/module-utils-url")
+      mixin app-core("modules/utils/module-utils-function")
+      mixin app-core("modules/utils/module-utils-object")
+      mixin app-core("modules/utils/module-utils")
+      mixin app-core("modules/object-watcher")
+
+      mixin app-core("app")
+      mixin app-core("router")
+
+      mixin app-controller("main")

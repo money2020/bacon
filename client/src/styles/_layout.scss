@@ -1,0 +1,61 @@
+
+$header-height: 40px;
+$footer-height: 0px;
+$sidebar-width: 250px;
+
+$panel-left-width: 100px;
+$breadcrumb-height: $header-height;
+
+
+html {
+    position: relative;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    min-width: 760px;
+    overflow-x: scroll;
+}
+
+body {
+    margin: 0 auto;
+}
+
+body > header {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: $header-height;
+}
+
+body > main {
+    position: absolute;
+    bottom: $footer-height;
+    right: 0;
+    left: 0;
+    top: 0;
+}
+
+.view {
+    position: absolute;
+    border: $border;
+    top: $header-height;
+    left: 0; bottom: 0; right: 0;
+
+    & > .breadcrumb {
+        position: absolute;
+        top: -$breadcrumb-height; left: $header-height; right: 0;
+        height: $header-height;
+        z-index: $z-header;
+        // box-shadow: inset 0px -1px 1px rgba(black, 0.03);
+    }
+
+    & > main {
+        position: absolute;
+        top: 0; left: 0; right: 0; bottom: 0;
+    }
+}
+
+body > footer {
+
+}

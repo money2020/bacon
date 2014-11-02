@@ -1,0 +1,67 @@
+.animation-fade {
+    &.ng-enter, &.ng-leave {
+        @include transition(all .33s cubic-bezier(0.694, 0.0482, 0.335, 1));
+    }
+
+    &.ng-enter {
+        opacity: 0;
+        &.ng-enter-active {
+            opacity: 1;
+        }
+    }
+
+    &.ng-leave {
+        opacity: 1;
+        &.ng-leave-active {
+            opacity: 0;
+        }
+    }
+}
+
+
+.animation-slide-down {
+    &.ng-enter, &.ng-leave {
+        @include transition(all .22s cubic-bezier(0.694, 0.0482, 0.335, 1));
+    }
+
+    &.ng-enter {
+        @include transform(translate(0, -100%));
+        &.ng-enter-active {
+            @include transform(translate(0, 0));
+        }
+    }
+
+    &.ng-leave {
+        @include transform(translate(0, 0));
+        &.ng-leave-active {
+            @include transform(translate(0, -100%));
+        }
+    }
+}
+
+.animation-slide-bottomleft {
+    &.ng-enter, &.ng-leave {
+        @include transition(all .22s cubic-bezier(0.694, 0.0482, 0.335, 1));
+    }
+
+    &.ng-enter {
+        opacity: 0;
+        @include transform(translate(0, -10px));
+        &.ng-enter-active {
+            opacity: 1;
+            @include transform(translate(0px, 0px));
+            // @include transform(translate(0, 0));
+        }
+    }
+
+    &.ng-leave {
+        opacity: 1;
+        // @include transform(translate(0, 0));
+        @include transform(translate(0px, 0px));
+        &.ng-leave-active {
+            opacity: 0;
+            // @include transform(translate(-10px, 10px));
+            @include transform(translate(0, 10px));
+        }
+    }
+}

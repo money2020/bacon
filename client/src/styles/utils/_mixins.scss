@@ -1,0 +1,21 @@
+
+// Mixins for Rem Font Sizing
+// http://css-tricks.com/snippets/css/less-mixin-for-rem-font-sizing/
+@mixin font-size($size: 16){
+  font-size: $size + px; // fallback
+  font-size: ($size / 10) + rem;
+}
+
+@mixin placeholder {
+    &::-webkit-input-placeholder { @content }
+    &::-moz-placeholder { @content }
+    &:-moz-placeholder { @content }
+    &:-ms-input-placeholder { @content }
+    &.placeholder { @content }
+}
+
+@mixin text-overflow-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

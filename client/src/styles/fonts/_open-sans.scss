@@ -1,0 +1,31 @@
+
+@include font-face(
+    "Open Sans",
+    '/assets/fonts/open-sans/OpenSans-Light-webfont',
+    300
+);
+
+@include font-face(
+    "Open Sans",
+    '/assets/fonts/open-sans/OpenSans-Regular-webfont',
+    400
+);
+
+@include font-face(
+    "Open Sans",
+    '/assets/fonts/open-sans/OpenSans-Semibold-webfont',
+    600
+);
+
+@include font-face(
+    "Open Sans",
+    '/assets/fonts/open-sans/OpenSans-Bold-webfont',
+    700
+);
+
+@include font-face(
+    "Open Sans",
+    '/assets/fonts/open-sans/OpenSans-Italic-webfont',
+    normal,
+    italic
+);

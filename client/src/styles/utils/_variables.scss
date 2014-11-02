@@ -1,0 +1,45 @@
+
+// colors
+// Be religious about not adding extra ones
+
+$white       : #fff;
+$lighter-grey: #f9f9fa;
+$light-grey  : #c4ccce;
+$mid-grey    : #9eabaf;
+$dark-grey   : #73838e;
+$darker-grey : #555d60;
+
+$red                   : #a8294d;
+$light-red             : lighten($red, 15%);
+$green                 : #31a341;
+$light-green           : lighten($green, 15%);
+$dark-blue             : #074269;
+$blue                  : #2999FF;
+$light-blue            : lighten($blue, 15%);
+$yellow                : #ffd44a;
+$light-yellow          : lighten($yellow, 5%);
+$navy                  : #242a33;
+$light-navy            : lighten($navy, 5%);
+
+$body-text-color       : #555;
+$body-background-color : darken($lighter-grey, 2%);
+$border-color          : darken(#e9eaed, 3%);
+$border                : 1px solid $border-color;
+
+
+// z-index
+
+$z-modal    : 9;
+$z-overlay  : 8;
+$z-dropdown : 7;
+$z-header   : 6;
+$z-elevated : 2;
+$z-base     : 1;
+$z-hidden   : 0;
+$z-cloak    : -1;
+
+
+// typography
+
+$font-stack : 'open sans', helvetica, arial, sans-serif;
+$icon-stack : 'entypo';
