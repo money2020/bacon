@@ -55,20 +55,37 @@
             border-right: 1px solid rgba($navy, 0.1);
         }
 
+        .data-url {
+
+        }
+
         li {
-            $height: 100px;
+            // $height: 100px;
             line-height: 1.8;
             border: $border;
-            height: $height;
+            // height: $height;
             padding: 10px 20px;
+            margin-bottom: 15px;
             width: 100%;
             color: $dark-grey;
             font-weight: 400;
-            background: $white;
+            background: rgba($white, 0.5);
             border: 1px solid #ccccda;
             border-bottom: 2px solid #ccccda;
             border-radius: 2px;
             position: relative;
+            @include transform(translate3d(0,0,0));
+        }
+
+        .icon-circled-help {
+            line-height: 1.4;
+            color: $blue;
+
+            &:before {
+                position: relative;
+                top: 2px;
+                padding-right: 4px;
+            }
         }
     }
 
@@ -92,6 +109,10 @@
     .transactions-ok {
         width: 25%;
 
+        background-color: rgba($green, 0.1);
+        h1 {
+            font-size: 22px;
+        }
         .data-icon {
             color: $light-green !important;
         }
@@ -99,7 +120,10 @@
 
     .transactions-fraud {
         width: 25%;
-
+        background-color: rgba($red, 0.1);
+        h1 {
+            font-size: 22px;
+        }
     }
 
     .transactions-ok h1 {

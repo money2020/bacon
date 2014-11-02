@@ -25,7 +25,7 @@ angular.module('money2020.bacon.transactions', [
             label: 'Good'
         data:
             name: chance.name()
-        $timeout addGood, Math.random() * 1000
+        $timeout addGood, Math.random() * 2000
 
     addFraud = -> State.add
         id: 'fraud' + Math.random()
@@ -42,9 +42,7 @@ angular.module('money2020.bacon.transactions', [
     $timeout addFraud, 0
 
     updateState = ->
-        console.log 'getting sketchy transactions'
         TransactionAPI.getSketchyTransactions().then (transactions) ->
-            console.log "IN LOOP:", JSON.stringify(transactions, null, 2)
             State.updateSketchy(transactions)
             $timeout updateState, 1000
 
@@ -170,17 +168,17 @@ angular.module('money2020.bacon.transactions', [
         initState = ->
             result         = {}
             result.sketchy = {}
-            result.ok      = {label:'ok',    icon:'check', stats:{}, transactions:{}}
-            result.fraud   = {label:'fraud', icon:'cross', stats:{}, transactions:{}}
+            result.ok      = {label:'Ok Transactions',    icon:'check', stats:{}, transactions:{}}
+            result.fraud   = {label:'Fraudulent Transactions', icon:'cross', stats:{}, transactions:{}}
             return result
 
         update = (newState) ->
             newState = JSON.parse JSON.stringify(newState)
             state ?= {}
             console.log "NEW STATE:", JSON.stringify(newState, null, 2)
-            state.sketchy  = {stats:{}, label:'Sketchy Transactions', transactions:newState.sketchy.transactions}
-            state.ok       = {label:'ok',    icon:'check', stats:state.ok.stats, transactions:{}}
-            state.fraud    = {label:'fraud', icon:'cross', stats:state.ok.stats, transactions:{}}
+            state.sketchy  = {stats:{}, label:"Fishy Transactions... let's investigate!", transactions:newState.sketchy.transactions}
+            state.ok       = {label:'OK Transactions',    icon:'check', stats:state.ok.stats, transactions:{}}
+            state.fraud    = {label:'Fraudulent Transactions', icon:'cross', stats:state.fraud.stats, transactions:{}}
 
         update initState() if not state
 

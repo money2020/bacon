@@ -3,8 +3,8 @@
   <h1>{{ state.label }}</h1>
   <h2>{{ state.stats.count }}</h2>
   <ul>
-    <li ng-class="{fallanimation:animate}" ng-repeat="(id, transaction) in state.transactions" class="transaction-list-item"><em class="data-name">{{ transaction.data.user_email }}</em>
-      <div class="data-ip">{{ transaction.data.ip }}</div>
-    </li>
+    <li ng-class="{fallanimation:animate}" ng-repeat="(id, transaction) in state.transactions" class="transaction-list-item"><a ng-href="https://sandbox.feedzai.com/dash#payment/{{ transaction.data.id }}/0" target="_blank"><em class="data-name">{{ transaction.data.user_email }}</em>
+        <div class="data-ip">{{ transaction.data.ip }}</div>
+        <div ng-if="transaction.status == 'unverified'" class="unverified"><i class="icon-circled-help">Waiting on verification information from customer...</i></div></a></li>
   </ul>
 </article>

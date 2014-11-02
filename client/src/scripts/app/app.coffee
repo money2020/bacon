@@ -55,4 +55,12 @@ angular.module('money2020.bacon', [
              """
              checked: true
         }
+        {
+             label: 'Apple Pay'
+             description: \
+             """
+             Use Apples to get indentified. Yum!
+             """
+             checked: false
+        }
     ]

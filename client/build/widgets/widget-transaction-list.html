@@ -3,8 +3,7 @@
   <h1>{{ state.label }}</h1>
   <h2>{{ state.stats.count }}</h2>
   <ul>
-    <li ng-class="{fallanimation:animate}" ng-repeat="(id, transaction) in state.transactions" class="transaction-list-item"><em class="data-name">{{ transaction.data.name }}</em>
-      <div style="display: inline-block" class="data-ip">{{ transaction.data.ipaddress }}</div><i style="float: right; position: relative; top: 1px" class="data-icon transactions-{{ id }} icon-{{ state.icon }}"></i>
+    <li ng-class="{fallanimation:animate}" ng-repeat="(id, transaction) in state.transactions" class="transaction-list-item"><em class="data-name">{{ transaction.data.name }}</em><i style="float: right; position: relative; top: 1px" class="data-icon transactions-{{ id }} icon-{{ state.icon }}"></i>
     </li>
   </ul>
 </article>

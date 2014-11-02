@@ -3,32 +3,14 @@ article.transaction-list.transaction-list-sketchy
     h1 {{ state.label }}
     h2 {{ state.stats.count }}
 
-    ul: li.transaction-list-item(ng-class="{fallanimation:animate}"
-           ng-repeat="(id, transaction) in state.transactions")
-        em.data-name
-            | {{ transaction.data.user_email }}
-        .data-ip
-            | {{ transaction.data.ip }}
-
-
-
-        //-     {
-        //-           "created_at": 1414937631,
-        //-           "data": {
-        //-             "amount": 4300,
-        //-             "id": 1414937631,
-        //-             "ip": "212.10.114.18",
-        //-             "user_email": "howey.1975@gmail.com",
-        //-             "user_id": "1234s56"
-        //-           },
-        //-           "id": "1414937631",
-        //-           "score": 0.677,
-        //-           "state": {
-        //-             "id": "sketchy",
-        //-             "label": "sketchy"
-        //-           },
-        //-           "status": "unverified",
-        //-           "updated_at": 1414937631,
-        //-           "verification": "sms"
-        //-         }
-        //- ]}
+    ul: li.transaction-list-item(
+        ng-class="{fallanimation:animate}"
+        ng-repeat="(id, transaction) in state.transactions")
+        a(ng-href="https://sandbox.feedzai.com/dash#payment/{{ transaction.data.id }}/0", target="_blank")
+            em.data-name
+                | {{ transaction.data.user_email }}
+            .data-ip
+                | {{ transaction.data.ip }}
+            .unverified(ng-if="transaction.status == 'unverified'")
+                i.icon-circled-help
+                    | Waiting on verification information from customer...

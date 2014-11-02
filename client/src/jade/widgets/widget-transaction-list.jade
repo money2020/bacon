@@ -7,6 +7,6 @@ article.transaction-list-transient
            ng-repeat="(id, transaction) in state.transactions")
         em.data-name
             | {{ transaction.data.name }}
-        .data-ip(style="display: inline-block")
-            | {{ transaction.data.ipaddress }}
+        //- .data-ip(style="display: inline-block")
+            //- | {{ transaction.data.ipaddress }}
         i.data-icon(style="float: right; position: relative; top: 1px", class="transactions-{{ id }} icon-{{ state.icon }}")
