@@ -126,12 +126,11 @@ angular.module('money2020.bacon.transactions', [
 
 .service 'TransactionAPI', ($q, $http) ->
 
-    getRaw = ->
-        $http.get('/auth/SMSAuth/status2').then (data) ->
-            return [] if not data or not data.data
-            data = data.data
-            data = data.filter (x) -> not (x.status in ["fraud", "ok"])
-            return data
+    getRaw = -> $http.get('/auth/SMSAuth/status2').then (response) ->
+        return [] if not response.data or not response.data.data
+        data = response.data.data
+        data = data.filter (x) -> not (x.status in ["fraud", "ok"])
+        return data
 
     # getRaw = -> new $q (resolve, reject) ->
     #     return resolve data: [

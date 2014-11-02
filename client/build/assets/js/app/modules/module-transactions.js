@@ -54,11 +54,12 @@
   }).service('TransactionAPI', function($q, $http) {
     var getRaw;
     getRaw = function() {
-      return $http.get('/auth/SMSAuth/status2').then(function(data) {
-        if (!data || !data.data) {
+      return $http.get('/auth/SMSAuth/status2').then(function(response) {
+        var data;
+        if (!response.data || !response.data.data) {
           return [];
         }
-        data = data.data;
+        data = response.data.data;
         data = data.filter(function(x) {
           var _ref;
           return !((_ref = x.status) === "fraud" || _ref === "ok");
