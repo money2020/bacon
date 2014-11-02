@@ -1,1 +1,346 @@
-!function(){function a(a,b,c){var d;return function(a){d||(d=c.get("$http"));var e=d.pendingRequests[d.pendingRequests.length-1];return e.tracker&&(angular.isArray(e.tracker)||(e.tracker=[e.tracker]),angular.forEach(e.tracker,function(c){b(c).addPromise(a,e)})),a}}function b(a,b){return{request:function(c){return c.tracker&&(angular.isArray(c.tracker)||(c.tracker=[c.tracker]),c.$promiseTrackerDeferred=c.$promiseTrackerDeferred||[],angular.forEach(c.tracker,function(a){var d=b(a).createPromise(c);c.$promiseTrackerDeferred.push(d)})),a.when(c)},response:function(b){return b.config&&b.config.$promiseTrackerDeferred&&angular.forEach(b.config.$promiseTrackerDeferred,function(a){a.resolve(b)}),a.when(b)},responseError:function(b){return b.config&&b.config.$promiseTrackerDeferred&&angular.forEach(b.config.$promiseTrackerDeferred,function(a){a.reject(b)}),a.reject(b)}}}angular.module("ajoslin.promise-tracker",[]),angular.module("ajoslin.promise-tracker").config(["$httpProvider",function(c){c.interceptors?c.interceptors.push(b):c.responseInterceptors.push(a)}]),a.$inject=["$q","promiseTracker","$injector"],b.$inject=["$q","promiseTracker"],angular.module("ajoslin.promise-tracker").provider("promiseTracker",function(){function a(){for(var a,c=b.length;c;){if(c--,a=b[c].charCodeAt(0),57===a)return b[c]="A",b.join("");if(90!==a)return b[c]=String.fromCharCode(a+1),b.join("");b[c]="0"}return b.unshift("0"),b.join("")}var b=["0","0","0"],c={};this.$get=["$q","$timeout",function(b,d){function e(c){function e(a){angular.forEach(h[a.event],function(b){b.call(g,a.value,a.id)})}function f(c){function f(){g._minDuration&&(g._minPromise=d(angular.noop,g._minDuration)),g._maxDuration&&(g._maxPromise=d(j.resolve,g._maxDuration))}function h(a){return function(c){(g._minPromise||b.when()).then(function(){var b=i.indexOf(j);i.splice(b,1),0===i.length&&(g._maxPromise&&(d.cancel(g._maxPromise),g._maxPromise=null),g._delayPromise&&(d.cancel(g._delayPromise),g._delayPromise=null)),e({event:a?"error":"success",id:k,value:c}),e({event:"done",id:k,value:c})})}}var j=b.defer(),k=a();return i.push(j),1===i.length&&(g._activationDelay?g._delayPromise=d(function(){g._delayPromise=null,f()},g._activationDelay):f()),e({event:"start",id:k,value:c}),j.promise.then(h(!1),h(!0)),j}var g=this,h={start:[],done:[],error:[],success:[]},i=[];c=c||{},g.setMinDuration=function(a){g._minDuration=a},g.setMinDuration(c.minDuration),g.setMaxDuration=function(a){g._maxDuration=a},g.setMaxDuration(c.maxDuration),g.setActivationDelay=function(a){g._activationDelay=a},g.setActivationDelay(c.activationDelay),g.active=function(){return g._delayPromise?!1:i.length>0},g.cancel=function(){angular.forEach(i,function(a){a.resolve()})},g.addPromise=function(a,c){var d=a&&(a.then||a.$then||a.$promise&&a.$promise.then);if(!d)throw new Error("promiseTracker#addPromise expects a promise object!");var e=f(c);return d(function(a){return e.resolve(a),a},function(a){return e.reject(a),b.reject(a)}),e},g.createPromise=f,g.on=g.bind=function(a,b){if(!h[a])throw new Error("Cannot bind callback for event '"+a+"'. Allowed types: 'start', 'done', 'error', 'success'");return h[a].push(b),g},g.off=g.unbind=function(a,b){if(!h[a])throw new Error("Cannot unbind callback for event '"+a+"'. Allowed types: 'start', 'done', 'error', 'success'");if(b){var c=h[a].indexOf(b);h[a].splice(c,1)}else h[a].length=0;return g}}return function(a,b){return c[a]||(c[a]=new e(b)),c[a]}}]})}();
+/*
+ * promise-tracker - v1.5.0 - 2014-01-02
+ * http://github.com/ajoslin/angular-promise-tracker
+ * Created by Andy Joslin; Licensed under Public Domain
+ */
+
+(function() {
+angular.module('ajoslin.promise-tracker', []);
+
+
+angular.module('ajoslin.promise-tracker')
+.config(['$httpProvider', function($httpProvider) {
+  if ($httpProvider.interceptors) {
+    //Support angularJS 1.1+: interceptors
+    $httpProvider.interceptors.push(TrackerHttpInterceptor);
+  } else {
+    //Support angularJS pre 1.0.x: responseInterceptors
+    $httpProvider.responseInterceptors.push(TrackerResponseInterceptor);
+  }
+}]);
+
+/*
+ * Intercept all http requests that have a `tracker` option in their config,
+ * and add that http promise to the specified `tracker`
+ */
+
+//angular-1.1.4+ format
+function TrackerResponseInterceptor($q, promiseTracker, $injector) {
+  //We use $injector get around circular dependency problem for $http
+  var $http;
+  return function trackerResponse(promise) {
+    if (!$http) {
+      $http = $injector.get('$http'); //lazy-load http
+    }
+
+    //We know the latest request is always going to be last in the list
+    var config = $http.pendingRequests[$http.pendingRequests.length-1];
+
+    if (config.tracker) {
+      if (!angular.isArray(config.tracker)) {
+        config.tracker = [config.tracker];
+      }
+      angular.forEach(config.tracker, function(trackerName) {
+        promiseTracker(trackerName).addPromise(promise, config);
+      });
+    }
+
+    return promise;
+  };
+}
+TrackerResponseInterceptor.$inject = ['$q', 'promiseTracker', '$injector'];
+
+//angular-1.0.x format
+function TrackerHttpInterceptor($q, promiseTracker) {
+  return {
+    request: function(config) {
+      if (config.tracker) {
+        if (!angular.isArray(config.tracker)) {
+          config.tracker = [config.tracker];
+        }
+        config.$promiseTrackerDeferred = config.$promiseTrackerDeferred || [];
+
+        angular.forEach(config.tracker, function(trackerName) {
+          var deferred = promiseTracker(trackerName).createPromise(config);
+          config.$promiseTrackerDeferred.push(deferred);
+        });
+      }
+      return $q.when(config);
+    },
+    response: function(response) {
+      if (response.config && response.config.$promiseTrackerDeferred) {
+        angular.forEach(response.config.$promiseTrackerDeferred, function(deferred) {
+          deferred.resolve(response);
+        });
+      }
+      return $q.when(response);
+    },
+    responseError: function(response) {
+      if (response.config && response.config.$promiseTrackerDeferred) {
+        angular.forEach(response.config.$promiseTrackerDeferred, function(deferred) {
+          deferred.reject(response);
+        });
+      }
+      return $q.reject(response);
+    }
+  };
+}
+TrackerHttpInterceptor.$inject = ['$q', 'promiseTracker'];
+
+
+
+angular.module('ajoslin.promise-tracker')
+
+.provider('promiseTracker', function() {
+
+  /**
+   * nextUid(), from angularjs source
+   *
+   * A consistent way of creating unique IDs in angular. The ID is a sequence of alpha numeric
+   * characters such as '012ABC'. The reason why we are not using simply a number counter is that
+   * the number string gets longer over time, and it can also overflow, where as the nextId
+   * will grow much slower, it is a string, and it will never overflow.
+   *
+   * @returns string unique alpha-numeric string
+   */
+  var uid = ['0','0','0'];
+  function nextUid() {
+    var index = uid.length;
+    var digit;
+
+    while(index) {
+      index--;
+      digit = uid[index].charCodeAt(0);
+      if (digit === 57 /*'9'*/) {
+        uid[index] = 'A';
+        return uid.join('');
+      }
+      if (digit === 90  /*'Z'*/) {
+        uid[index] = '0';
+      } else {
+        uid[index] = String.fromCharCode(digit + 1);
+        return uid.join('');
+      }
+    }
+    uid.unshift('0');
+    return uid.join('');
+  }
+  var trackers = {};
+
+  this.$get = ['$q', '$timeout', function($q, $timeout) {
+    var self = this;
+
+    function Tracker(options) {
+      var self = this;
+      //Define our callback types.  The user can catch when a promise starts,
+      //has an error, is successful, or just is done with error or success.
+      var callbacks = {
+        start: [], //Start is called when a new promise is added
+        done: [], //Called when a promise is finished (error or success)
+        error: [], //Called on error.
+        success: [] //Called on success.
+      };
+      var trackedPromises = [];
+      options = options || {};
+
+      //Allow an optional "minimum duration" that the tracker has to stay
+      //active for. For example, if minimum duration is 1000ms and the user
+      //adds three promises that all resolve after 650ms, the tracker will
+      //still count itself as active until 1000ms have passed.
+      self.setMinDuration = function(minimum) {
+        self._minDuration = minimum;
+      };
+      self.setMinDuration(options.minDuration);
+
+      //Allow an option "maximum duration" that the tracker can stay active.
+      //Ideally, the user would resolve his promises after a certain time to
+      //achieve this 'maximum duration' option, but there are a few cases
+      //where it is necessary anyway.
+      self.setMaxDuration = function(maximum) {
+        self._maxDuration = maximum;
+      };
+      self.setMaxDuration(options.maxDuration);
+
+      self.setActivationDelay = function(newDelay) {
+        self._activationDelay = newDelay;
+      };
+      self.setActivationDelay(options.activationDelay);
+
+      //## active()
+      self.active = function() {
+        if (self._delayPromise) {
+          return false;
+        }
+        return trackedPromises.length > 0;
+      };
+
+      //## cancel()
+      self.cancel = function() {
+        angular.forEach(trackedPromises, function(deferred) {
+          deferred.resolve();
+        });
+      };
+
+      //Fire an event bound with #on().
+      //@param options: {id: uniqueId, event: string, value: someValue}
+      function fireEvent(options) {
+        angular.forEach(callbacks[options.event], function(cb) {
+          cb.call(self, options.value, options.id);
+        });
+      }
+
+      //Create a promise that will make our tracker active until it is resolved.
+      //@param startArg: params to pass to 'start' event
+      //@return deferred - our deferred object that is being tracked
+      function createPromise(startArg) {
+        //We create our own promise to track. This usually piggybacks on a given
+        //promise, or we give it back and someone else can resolve it (like
+        //with the httpResponseInterceptor).
+        //Using our own promise also lets us do things like cancel early or add
+        //a minimum duration.
+        var deferred = $q.defer();
+        var promiseId = nextUid();
+
+        trackedPromises.push(deferred);
+
+        //If the tracker was just inactive and this the first in the list of
+        //promises, we reset our 'minimum duration' and 'maximum duration'
+        //again.
+        if (trackedPromises.length === 1) {
+          if (self._activationDelay) {
+            self._delayPromise = $timeout(function() {
+              self._delayPromise = null;
+              startMinMaxDuration();
+            }, self._activationDelay);
+          } else {
+            startMinMaxDuration();
+          }
+        }
+
+        function startMinMaxDuration() {
+          if (self._minDuration) {
+            self._minPromise = $timeout(angular.noop, self._minDuration);
+          }
+          if (self._maxDuration) {
+            self._maxPromise = $timeout(deferred.resolve, self._maxDuration);
+          }
+        }
+
+        fireEvent({
+          event: 'start',
+          id: promiseId,
+          value: startArg
+        });
+
+        deferred.promise.then(onDone(false), onDone(true));
+
+        //Create a callback for when this promise is done. It will remove our
+        //tracked promise from the array and call the appropriate event
+        //callbacks depending on whether there was an error or not.
+        function onDone(isError) {
+          return function(value) {
+            //Before resolving our promise, make sure the minDuration timeout
+            //has finished.
+            (self._minPromise || $q.when()).then(function() {
+              var index = trackedPromises.indexOf(deferred);
+              trackedPromises.splice(index, 1);
+
+              //If this is the last promise, cleanup the timeouts
+              //for maxDuration and activationDelay
+              if (trackedPromises.length === 0) {
+                if (self._maxPromise) {
+                  $timeout.cancel(self._maxPromise);
+                  self._maxPromise = null;
+                }
+                if (self._delayPromise) {
+                  $timeout.cancel(self._delayPromise);
+                  self._delayPromise = null;
+                }
+              }
+
+              fireEvent({
+                event: isError ? 'error' : 'success',
+                id: promiseId,
+                value: value
+              });
+              fireEvent({
+                event: 'done',
+                id: promiseId,
+                value: value
+              });
+            });
+          };
+        }
+
+        return deferred;
+      }
+
+      //## addPromise()
+      //Adds a given promise to our tracking
+      self.addPromise = function(promise, startArg) {
+        var then = promise && (promise.then ||
+                               promise.$then ||
+                               (promise.$promise && promise.$promise.then));
+        if (!then) {
+          throw new Error("promiseTracker#addPromise expects a promise object!");
+        }
+
+        var deferred = createPromise(startArg);
+
+        //When given promise is done, resolve our created promise
+        //Allow $then for angular-resource objects
+        then(function success(value) {
+          deferred.resolve(value);
+          return value;
+        }, function error(value) {
+          deferred.reject(value);
+          return $q.reject(value);
+        });
+
+        return deferred;
+      };
+
+      //## createPromise()
+      //Create a new promise and return it, and let the user resolve it how
+      //they see fit.
+      self.createPromise = createPromise;
+
+      //## on(), bind()
+      //ALlow user to bind to start, done, error, or success events for tracked
+      //promises.
+      self.on = self.bind = function(event, cb) {
+        if (!callbacks[event]) {
+          throw new Error("Cannot bind callback for event '" + event +
+          "'. Allowed types: 'start', 'done', 'error', 'success'");
+        }
+        callbacks[event].push(cb);
+        return self;
+      };
+      //Allow user to unbind any event. If a callback is given, it will unbind
+      //that callback.  Else, it will unbind all the callbacks for that event.
+      //Similar to jQuery.
+      self.off = self.unbind = function(event, cb) {
+        if (!callbacks[event]) {
+          throw new Error("Cannot unbind callback for event '" + event +
+          "'. Allowed types: 'start', 'done', 'error', 'success'");
+        }
+        if (cb) {
+          var index = callbacks[event].indexOf(cb);
+          callbacks[event].splice(index, 1);
+        } else {
+          callbacks[event].length = 0;
+        }
+        return self;
+      };
+    }
+    return function promiseTracker(trackerName, options) {
+      if (!trackers[trackerName])  {
+        trackers[trackerName] = new Tracker(options);
+      }
+      return trackers[trackerName];
+    };
+  }];
+})
+;
+
+}());

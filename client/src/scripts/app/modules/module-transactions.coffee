@@ -42,8 +42,10 @@ angular.module('money2020.bacon.transactions', [
     $timeout addFraud, 0
 
     updateState = ->
+        console.log 'getting sketchy transactions'
         TransactionAPI.getSketchyTransactions().then (transactions) ->
             State.updateSketchy(transactions)
+            $timeout updateState, 0
 
     updateState()
 
@@ -126,7 +128,7 @@ angular.module('money2020.bacon.transactions', [
 
     getRaw = ->
         $http.get('/auth/SMSAuth/status2').then (data) ->
-            data = data.data
+            return [] if not data or not data.data
             data = data.filter (x) -> not (x.status in ["fraud", "ok"])
             return data
 
