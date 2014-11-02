@@ -32,6 +32,10 @@ def cart():
 def success():
     return make_response(open('templates/checkout-ok.html').read())
 
+@app.route('/fail')
+def fail():
+    return make_response(open('templates/checkout-fraud.html').read())
+
 @app.route('/checkout')
 def checkout():
     ''' Checkout page with Feedzai first-pass fraud alerting. '''
@@ -68,9 +72,11 @@ def checkout():
             'label': risk_state
         },
         'created_at': int(risk_id), # ID = creation timestamp
-        'updated_at': '',
-        'data': {}
+        'updated_at': int(risk_id),
+        'data': data
     }
+
+    auths['SMSAuth']._add_notification(notify)
 
     return response or make_response(dict_to_string(notify))
 

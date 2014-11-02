@@ -1,3 +1,5 @@
+import time
+
 from flask import jsonify, redirect
 
 class SocialAuth:
@@ -40,11 +42,13 @@ class SMSAuth(SocialAuth):
         SocialAuth.__init__(self, data)
         self.client = self.TwilioRestClient(self.data['account_sid'], self.data['auth_token'])
         self.sms_status = "unverified"
-        self.sms_status2 = "unverified"
+        self.notifications = []
 
     def verify(self, request=None):
         self.sms_status = "unverified"
-        self.sms_status2 = "unverified"
+        self.notifications[-1]['verification'] = 'sms'
+        self.notifications[-1]['status'] = 'unverified'
+        self.notifications[-1]['updated_at'] = int(time.time())
 
         message = self.client.messages.create(
                     body='Hi Lucas, confirming your purchase of $149.99. Please reply with a YES or NO.',
@@ -74,14 +78,16 @@ class SMSAuth(SocialAuth):
         print request.form
         if request.form['Body'].lower() == 'yes':
             self.sms_status = "ok"
-            self.sms_status2 = "ok"
+            self.notifications[-1]['status'] = 'ok'
+            self.notifications[-1]['updated_at'] = int(time.time())
             # Tell Nick that all is good - this is done through status2()
             # Tell Feedzai that all is good
             # Redirect user to complete page (sockets) - this is done through status()
             print "good guy"
         else:
             self.sms_status = "fraud"
-            self.sms_status2 = "fraud"
+            self.notifications[-1]['status'] = 'fraud'
+            self.notifications[-1]['updated_at'] = int(time.time())
             # Tell Nick that all is bad - this is done through status2()
             # Tell Feedzai that all is bad
             # Redirect user to failed page (sockets) - this is done through status()
@@ -95,9 +101,12 @@ class SMSAuth(SocialAuth):
 
         return jsonify(status=self.sms_status)
 
-    def status2(self, request=None):
-        if self.sms_status2 == "ok":
-            self.sms_status2 = "unverified"
-            return jsonify(status="ok")
+    def _add_notification(self, notification):
+        self.notifications.append(notification)
 
-        return jsonify(status=self.sms_status2)
+    def reset(self):
+        self.notifications = []
+        return redirect('/auth/SMSAuth/status2')
+
+    def status2(self, request=None):
+        return jsonify(data=self.notifications)
