@@ -11,3 +11,4 @@ angular.module('money2020.bacon.auth', [])
     getSMSStatus: ->
 
 
+.controller 'AuthSMSController', ->
