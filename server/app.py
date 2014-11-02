@@ -108,6 +108,9 @@ def dict_to_string(data):
 if __name__ == '__main__':
     random.seed()
 
+    # Setup Feedzai API
+    feedzai = Feedzai(api_key=str(os.getenv('FEEDZAI_KEY', '0000000000000000000000000000000000000000000000000000000000000000')))
+
     # Setup Authentication Services
     twilio = {
         'account_sid': str(os.getenv('TWILIO_ACC_SID', 'AC00000000000000000000000000000000')),
@@ -116,10 +119,10 @@ if __name__ == '__main__':
         'your_phone': str(os.getenv('YOUR_PHONE', '+18888888888'))
     }
     auths['SMSAuth'] = SMSAuth(twilio)
-    auths['FacebookPassiveAuth'] = FacebookPassiveAuth({})
+    auths['SMSAuth'].add_feedzai_client(feedzai)
 
-    # Setup Feedzai API
-    feedzai = Feedzai(api_key=str(os.getenv('FEEDZAI_KEY', '0000000000000000000000000000000000000000000000000000000000000000')))
+    auths['FacebookPassiveAuth'] = FacebookPassiveAuth({})
+    auths['FacebookPassiveAuth'].add_feedzai_client(feedzai)
 
     # Start the server
     host = str(os.getenv('HOST', '0.0.0.0'))

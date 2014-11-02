@@ -24,6 +24,10 @@ class SocialAuth:
     def verify(self, request=None):
         return "[ Verify Form ]"
 
+    def add_feedzai_client(self, feedzai):
+        self.feedzai = feedzai
+
+
 
 class FacebookPassiveAuth(SocialAuth):
     def __init__(self, data):
@@ -32,8 +36,6 @@ class FacebookPassiveAuth(SocialAuth):
     def verify(self, request=None):
         return "Facebook auth yo!"
 
-
-sms_status = "unverified"
 
 class SMSAuth(SocialAuth):
     from twilio.rest import TwilioRestClient
@@ -80,16 +82,18 @@ class SMSAuth(SocialAuth):
             self.sms_status = "ok"
             self.notifications[-1]['status'] = 'ok'
             self.notifications[-1]['updated_at'] = int(time.time())
+            print self.feedzai.label(self.notifications[-1]['id'], {'label': 'ok'})
             # Tell Nick that all is good - this is done through status2()
-            # Tell Feedzai that all is good
+            # Tell Feedzai that all is good - done
             # Redirect user to complete page (sockets) - this is done through status()
             print "good guy"
         else:
             self.sms_status = "fraud"
             self.notifications[-1]['status'] = 'fraud'
             self.notifications[-1]['updated_at'] = int(time.time())
+            print self.feedzai.label(self.notifications[-1]['id'], {'label': 'fraud'})
             # Tell Nick that all is bad - this is done through status2()
-            # Tell Feedzai that all is bad
+            # Tell Feedzai that all is bad - done
             # Redirect user to failed page (sockets) - this is done through status()
             print "bad guy"
         return ''
