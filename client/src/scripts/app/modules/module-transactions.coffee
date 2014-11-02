@@ -57,8 +57,7 @@ angular.module('money2020.bacon.transactions', [
 
 
 .factory 'AppState', ($timeout, TransactionStates) ->
-
-    (state) ->
+    return (state) ->
 
         initState = ->
             result         = {}
@@ -70,16 +69,16 @@ angular.module('money2020.bacon.transactions', [
         update = (newState) ->
             newState = JSON.parse JSON.stringify(newState)
             state ?= {}
-            state.sketchy = newState.sketchy
-            state.ok      = newState.ok
-            state.fraud   = newState.fraud
+            state.sketchy  = newState.sketchy
+            state.ok       = {label:'ok', stats:{}, transactions:{}}
+            state.fraud    = {label:'fraud', stats:{}, transactions:{}}
 
         update initState() if not state
 
         getState: ->
             return state
 
-        update: (newState) ->
+        updateSketchy: (sketchy) ->
             return update(newState)
 
         add: (transaction) ->
