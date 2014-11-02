@@ -121,10 +121,16 @@ if __name__ == '__main__':
     auths['SMSAuth'] = SMSAuth(twilio)
     auths['SMSAuth'].add_feedzai_client(feedzai)
 
-    auths['FacebookPassiveAuth'] = FacebookPassiveAuth({})
+    facebook = {
+        'app_id': str(os.getenv('FB_APP_ID', '00000000000000000000000000000000')),
+        'secret': str(os.getenv('FB_SECRET', '00000000000000000000000000000000'))
+    }
+    auths['FacebookPassiveAuth'] = FacebookPassiveAuth(facebook)
     auths['FacebookPassiveAuth'].add_feedzai_client(feedzai)
 
     # Start the server
     host = str(os.getenv('HOST', '0.0.0.0'))
     port = int(os.getenv('PORT', 8080))
+
+    app.secret_key = str(os.getenv('SECRET_KEY', '00000000000000000000000000000000'))
     app.run(host=host, port=port, debug=debug_mode)

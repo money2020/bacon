@@ -1,6 +1,8 @@
+import os
 import time
 
-from flask import jsonify, redirect
+from flask import jsonify, redirect, session
+from flask_oauth import OAuth
 
 class SocialAuth:
 
@@ -30,11 +32,43 @@ class SocialAuth:
 
 
 class FacebookPassiveAuth(SocialAuth):
+
+    oauth = OAuth()
+    facebook = oauth.remote_app('facebook',
+        base_url='https://graph.facebook.com/',
+        request_token_url=None,
+        access_token_url='/oauth/access_token',
+        authorize_url='https://www.facebook.com/dialog/oauth',
+        consumer_key=os.getenv('FB_APP_ID', ''),
+        consumer_secret=os.getenv('FB_SECRET', ''),
+        request_token_params={'scope': 'email,user_birthday,user_photos'})
+
+
     def __init__(self, data):
         SocialAuth.__init__(self, data)
 
-    def verify(self, request=None):
-        return "Facebook auth yo!"
+    def process(self, request=None):
+        return self.facebook.authorize(callback='https://crispybacon.ngrok.com/auth/FacebookPassiveAuth/facebook_authorized')
+
+    def logout(self, request=None):
+        session.pop('oauth_token', None)
+        return redirect(request.referrer or '/')
+
+    @facebook.authorized_handler
+    def facebook_authorized(self, resp):
+        if resp is None:
+            return 'Access denied: reason=%s error=%s' % (
+                request.args['error_reason'],
+                request.args['error_description']
+            )
+        session['oauth_token'] = (resp['access_token'], '')
+        me = self.facebook.get('/me')
+        return str(me)
+        #return redirect('/')
+
+    @facebook.tokengetter
+    def get_facebook_oauth_token():
+        return session.get('oauth_token')
 
 
 class SMSAuth(SocialAuth):
