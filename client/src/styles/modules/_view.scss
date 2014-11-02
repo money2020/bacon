@@ -56,7 +56,7 @@
         }
 
         li {
-            $height: 50px;
+            $height: 100px;
             line-height: 1.8;
             border: $border;
             height: $height;
@@ -69,13 +69,6 @@
             border-bottom: 2px solid #ccccda;
             border-radius: 2px;
             position: relative;
-
-            &:not(.fallanimation) {
-                height: 100px;
-            }
-
-            &.fallanimation {
-            }
         }
     }
 
@@ -157,9 +150,10 @@
             &:not(.fallanimation) {
                 height: 100px;
                 line-height: 100px;
+                visibility: hidden;
             }
-
             &.fallanimation {
+                visibility: visible;
                 position: absolute;
                 top: 5px;
                 line-height: $height - 5px;

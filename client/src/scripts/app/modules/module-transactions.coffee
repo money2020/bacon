@@ -44,8 +44,9 @@ angular.module('money2020.bacon.transactions', [
     updateState = ->
         console.log 'getting sketchy transactions'
         TransactionAPI.getSketchyTransactions().then (transactions) ->
+            console.log "IN LOOP:", JSON.stringify(transactions, null, 2)
             State.updateSketchy(transactions)
-            $timeout updateState, 0
+            $timeout updateState, 1000
 
     updateState()
 
@@ -126,11 +127,14 @@ angular.module('money2020.bacon.transactions', [
 
 .service 'TransactionAPI', ($q, $http) ->
 
-    getRaw = -> $http.get('/auth/SMSAuth/status2').then (response) ->
+    getRaw = -> $http.get('http://crispybacon.ngrok.com/auth/SMSAuth/status2').then (response) ->
         return [] if not response.data or not response.data.data
         data = response.data.data
         data = data.filter (x) -> not (x.status in ["fraud", "ok"])
+        console.log JSON.stringify(data, null, 2)
         return data
+
+    # getRaw = -> $q (resolve, reject) -> resolve([])
 
     # getRaw = -> new $q (resolve, reject) ->
     #     return resolve data: [
@@ -156,7 +160,8 @@ angular.module('money2020.bacon.transactions', [
     #     ]
 
     getSketchyTransactions: ->
-        getRaw().then (data) -> {stats:{}, label:'Sketchy Transactions', transactions:(_.indexBy data.data, 'id')}
+        getRaw().then (data) ->
+            return {stats:{}, label:'Sketchy Transactions', transactions:(_.indexBy data, 'id')}
 
 
 .factory 'AppState', ($timeout, TransactionStates) ->
@@ -172,9 +177,10 @@ angular.module('money2020.bacon.transactions', [
         update = (newState) ->
             newState = JSON.parse JSON.stringify(newState)
             state ?= {}
-            state.sketchy  = newState.sketchy
-            state.ok       = {label:'ok',    icon:'check', stats:{}, transactions:{}}
-            state.fraud    = {label:'fraud', icon:'cross', stats:{}, transactions:{}}
+            console.log "NEW STATE:", JSON.stringify(newState, null, 2)
+            state.sketchy  = {stats:{}, label:'Sketchy Transactions', transactions:newState.sketchy.transactions}
+            state.ok       = {label:'ok',    icon:'check', stats:state.ok.stats, transactions:{}}
+            state.fraud    = {label:'fraud', icon:'cross', stats:state.ok.stats, transactions:{}}
 
         update initState() if not state
 
@@ -282,4 +288,4 @@ angular.module('money2020.bacon.transactions', [
             return if not $el.hasClass('fallanimation')
             velocity = Math.random() * (10 - 6) + 6
             $timeout (-> $el.box2d({'y-velocity':velocity})), 0
-        ), 0
+        ), 100
