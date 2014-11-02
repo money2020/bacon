@@ -71,8 +71,10 @@ class FacebookPassiveAuth(SocialAuth):
         # do some math
         # let Nick, Dashboard and Feedzai know
         print me.__dict__
-        return str(me.__dict__)
-        #return redirect('/')
+        #return str(me.__dict__)
+
+        # for now
+        return redirect('/success')
 
     @facebook.tokengetter
     def get_facebook_oauth_token():
