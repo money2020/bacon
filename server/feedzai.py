@@ -1,4 +1,3 @@
-# import urllib2
 import json
 import requests
 
@@ -9,7 +8,6 @@ class Feedzai:
 
     def __init__(self, api_key):
         self.api_key = api_key
-
 
     def _request(self, endpoint, data):
         url = self.api_url + endpoint

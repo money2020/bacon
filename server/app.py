@@ -19,8 +19,8 @@ feedzai = None
 
 @app.route('/')
 def home():
+    ''' Home page redirects to Nick's Dashboard '''
     return make_response(open('../client/build/index.html').read())
-
 
 @app.route('/cart')
 def cart():
