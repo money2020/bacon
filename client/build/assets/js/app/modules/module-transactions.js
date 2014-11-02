@@ -58,6 +58,7 @@
         if (!data || !data.data) {
           return [];
         }
+        data = data.data;
         data = data.filter(function(x) {
           var _ref;
           return !((_ref = x.status) === "fraud" || _ref === "ok");

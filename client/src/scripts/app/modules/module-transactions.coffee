@@ -129,6 +129,7 @@ angular.module('money2020.bacon.transactions', [
     getRaw = ->
         $http.get('/auth/SMSAuth/status2').then (data) ->
             return [] if not data or not data.data
+            data = data.data
             data = data.filter (x) -> not (x.status in ["fraud", "ok"])
             return data
 
