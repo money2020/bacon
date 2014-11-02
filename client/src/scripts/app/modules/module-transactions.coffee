@@ -43,7 +43,6 @@ angular.module('money2020.bacon.transactions', [
 
     updateState = ->
         TransactionAPI.getSketchyTransactions().then (transactions) ->
-            console.log transactions
             State.updateSketchy(transactions)
 
     updateState()
@@ -125,8 +124,14 @@ angular.module('money2020.bacon.transactions', [
 
 .service 'TransactionAPI', ($q, $http) ->
 
-    # getRaw = ->
-    #     new $q (resolve, reject) -> resolve {data:[
+    getRaw = ->
+        $http.get('/auth/SMSAuth/status2').then (data) ->
+            data = data.data
+            data = data.filter (x) -> not (x.status in ["fraud", "ok"])
+            return data
+
+    # getRaw = -> new $q (resolve, reject) ->
+    #     return resolve data: [
     #         {
     #               "created_at": 1414937631,
     #               "data": {
@@ -145,14 +150,8 @@ angular.module('money2020.bacon.transactions', [
     #               "status": "unverified",
     #               "updated_at": 1414937631,
     #               "verification": "sms"
-    #             }
-    #     ]}
-
-    getRaw = ->
-        $http.get('/auth/SMSAuth/status2').then (data) ->
-            data = data.data
-            data = data.filter (x) -> not (x.status in ["fraud", "ok"])
-            return data
+    #         }
+    #     ]
 
     getSketchyTransactions: ->
         getRaw().then (data) -> {stats:{}, label:'Sketchy Transactions', transactions:(_.indexBy data.data, 'id')}

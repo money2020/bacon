@@ -8,7 +8,11 @@ angular.module('money2020.bacon.router', [])
         templateUrl: '/partials/partial-transactions.html'
         controller:  'TransactionsController'
         resolve:
-            State: (TransactionAPI, AppState) -> TransactionAPI.getState().then (state) -> new AppState(state)
+            State: (TransactionAPI, AppState) ->
+                # console.log TransactionAPI
+                # console.log AppState
+                TransactionAPI.getSketchyTransactions().then (transactions) ->
+                    return new AppState(transactions)
 
     '/verify/fraud':
         templateUrl: '/partials/partial-verify-fraud.html'
@@ -24,6 +28,5 @@ angular.module('money2020.bacon.router', [])
 
 
 .config ($routeProvider, $locationProvider, ROUTES) ->
-
     for path, options of ROUTES
         $routeProvider.when path, options
