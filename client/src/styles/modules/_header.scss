@@ -1,16 +1,45 @@
 
 header {
     background: $darker-grey;
-    z-index: 99999;
+    z-index: 11111;
     position: absolute;
     top: 50px;
 
     h1 {
         font-size: 36px;
         line-height: $header-height - 6px;
-        font-weight: 100;
-        color: $dark-grey;
+        font-weight: 400 !important;
         padding-left: 10px;
         letter-spacing: 1px;
+        color: $blue;
+        opacity: 0.8;
+        font-weight: 300;
+        display: inline-block;
+        padding-top: 1px;
+        text-shadow: 0px 1px 2px rgba(black, 0.5);
+
+        span {
+            color: $mid-grey;
+            font-weight: 300 !important;
+        }
+
+        .sep {
+            opacity: 0.3;
+        }
+    }
+
+    .icon-settings {
+        font-size: 36px;
+        height: $header-height;
+        display: block;
+        opacity: 0.5;
+        float: right;
+        margin: 0 15px;
+
+        &:hover, &.active {
+            opacity: 1;
+            cursor: pointer;
+            color: $blue;
+        }
     }
 }

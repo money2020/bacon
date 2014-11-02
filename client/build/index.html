@@ -9,16 +9,34 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-touch-fullscreen" content="yes">
     <meta charset="utf-8">
-    <link href="assets/css/default_92d082d26bb2454a.css" rel="stylesheet"/>
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic" rel="stylesheet" type="text/css">
+    <link href="assets/css/default_a7b563fc440be35b.css" rel="stylesheet"/>
     <script src="assets/js/libs/jquery_d2166eee2e2cf09c.js"></script>
     <script src="assets/js/libs/angular_0f2a39141167d61f.js"></script>
-    <script src="assets/js/libs/matter_d3097e8f21c6c841.js"></script>
     <script src="assets/js/libs/jquery.box2d_bde4753820262e68.js"></script>
+    <script src="assets/js/libs/chance_87a831d5a2276422.js"></script>
   </head>
   <body>
     <header>
-      <h1>Bacon {{ route.current.template }}</h1>
+      <h1>Bacon <span class="sep">|</span><span> Administration Panel</span></h1><i ng-click="modal.toggle()" ng-class="{active:modal.shown}" class="icon-settings icon-cog"></i>
     </header>
+    <div ng-show="modal.shown" class="modal">
+      <article ng-click="modal.hide()" class="modal-overlay"></article>
+      <article class="modal-body">
+        <h1>Which authentications do you want to allow?</h1>
+        <ul>
+          <li ng-repeat="authentication in authentications">
+            <label>
+              <input type="checkbox" ng-model="authentication.checked">
+              <div class="fields">
+                <div class="auth-label">{{ authentication.label }}</div>
+                <div class="auth-description">{{ authentication.description }}</div>
+              </div>
+            </label>
+          </li>
+        </ul>
+      </article>
+    </div>
     <main ng-view></main>
     <script src="assets/js/libs/lodash_05a9f8f516ed883e.js"></script>
     <script src="assets/js/libs/angular.route_0182bada30c9c0bf.js"></script>
@@ -27,9 +45,9 @@
     <script src="assets/js/app/modules/utils/module-utils-function_241d92859ad378c4.js"></script>
     <script src="assets/js/app/modules/utils/module-utils-object_fa9779a3f1a1249d.js"></script>
     <script src="assets/js/app/modules/utils/module-utils_3cb830fc3af008dd.js"></script>
-    <script src="assets/js/app/modules/module-transactions_d21bf9c88f267c26.js"></script>
-    <script src="assets/js/app/modules/module-auth_081ec3a7f40b1263.js"></script>
-    <script src="assets/js/app/app_737b896acf7a3719.js"></script>
+    <script src="assets/js/app/modules/module-transactions_6d0e27023892208f.js"></script>
+    <script src="assets/js/app/modules/module-auth_252e4d0cb96d021d.js"></script>
+    <script src="assets/js/app/app_64f407426c4e399e.js"></script>
     <script src="assets/js/app/router_2928f6ed5e06fd1b.js"></script>
   </body>
 </html>

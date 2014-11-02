@@ -1,7 +1,12 @@
 
-article.transaction-list
+article.transaction-list-transient
     h1 {{ state.label }}
     h2 {{ state.stats.count }}
+
     ul: li.transaction-list-item(ng-class="{fallanimation:animate}"
            ng-repeat="(id, transaction) in state.transactions")
-        | {{ transaction.id }}
+        em.data-name
+            | {{ transaction.data.name }}
+        .data-ip(style="display: inline-block")
+            | {{ transaction.data.ipaddress }}
+        i.data-icon(style="float: right; position: relative; top: 1px", class="transactions-{{ id }} icon-{{ state.icon }}")

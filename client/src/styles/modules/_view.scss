@@ -1,8 +1,4 @@
 
-.view {
-
-}
-
 
 .view-transactions {
     width: 100%;
@@ -16,10 +12,9 @@
 
     h1 {
         font-size: 25px;
-        text-transform: uppercase;
-        color: rgba($blue, 0.8);
-        letter-spacing: 1px;
-        font-weight: 300;
+        color: $mid-grey;
+        letter-spacing: 0px;
+        font-weight: 600;
         background: $darker-grey;
         height: 60px;
         line-height: 60px;
@@ -29,7 +24,10 @@
         box-shadow: 0px 3px 3px 0px rgba(black, 0.15);
         border-bottom: 1px solid $navy;
         border-right: 1px solid $navy;
+
     }
+
+
 
     h2 {
         text-align: right;
@@ -44,16 +42,75 @@
         font-weight: 200;
     }
 
+    .transaction-list-sketchy {
+        display: block;
+        height: 100%;
+        float: left;
+        position: relative;
+        overflow: hidden;
+
+        ul {
+            padding: 10px;
+            height: 100%;
+            border-right: 1px solid rgba($navy, 0.1);
+        }
+
+        li {
+            $height: 50px;
+            line-height: 1.8;
+            border: $border;
+            height: $height;
+            padding: 10px 20px;
+            width: 100%;
+            color: $dark-grey;
+            font-weight: 400;
+            background: $white;
+            border: 1px solid #ccccda;
+            border-bottom: 2px solid #ccccda;
+            border-radius: 2px;
+            position: relative;
+
+            &:not(.fallanimation) {
+                height: 100px;
+            }
+
+            &.fallanimation {
+            }
+        }
+    }
+
+    .transaction-list-item {
+        position: relative;
+    }
+
+    .data-name {
+        display: inline-block;
+        width: 2px;
+    }
+
+    .data-icon {
+        // position: absolute;
+        // right: 0;
+        display: inline-block;
+        float: right;
+        // display: inline-block;
+    }
+
     .transactions-ok {
         width: 25%;
+
+        .data-icon {
+            color: $light-green !important;
+        }
     }
 
     .transactions-fraud {
         width: 25%;
+
     }
 
     .transactions-ok h1 {
-        color: $light-green;
+        // color: $light-green;
     }
 
     .transactions-sketchy {
@@ -69,7 +126,7 @@
         }
     }
 
-    .transaction-list {
+    .transaction-list-transient {
         display: block;
         height: 100%;
         float: left;
@@ -87,13 +144,15 @@
             border: $border;
             height: $height;
             line-height: $height;
-            padding: 0 10px;
+            padding: 0 20px;
             width: 100%;
             color: $dark-grey;
             font-weight: 400;
             background: $white;
-            border: 1px solid $light-grey;
-            border-bottom: 2px solid $light-grey;
+            border: 1px solid #ccccda;
+            border-bottom: 2px solid #ccccda;
+            border-radius: 2px;
+            position: relative;
 
             &:not(.fallanimation) {
                 height: 100px;
@@ -103,7 +162,7 @@
             &.fallanimation {
                 position: absolute;
                 top: 5px;
-                // background: none;
+                line-height: $height - 5px;
             }
         }
     }

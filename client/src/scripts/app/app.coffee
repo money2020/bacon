@@ -29,3 +29,30 @@ angular.module('money2020.bacon', [
 
 .run ($rootScope, $route) ->
     $rootScope.route = $route
+    $rootScope.modalShown = false
+
+    $rootScope.modal =
+        shown:  false
+        hide: ->
+            @shown = false
+        toggle: ->
+            @shown = !@shown
+
+    $rootScope.authentications = [
+        {
+             label: 'SMS Authentication (twilio)'
+             description: \
+             """
+             Calls the user via SMS to verify if the customer is legit.
+             """
+             checked: true
+        }
+        {
+             label: 'Facebook Authentication'
+             description: \
+             """
+             Look at friends and activity to determine if the customer is a human.
+             """
+             checked: true
+        }
+    ]

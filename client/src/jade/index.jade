@@ -14,18 +14,32 @@ html(ng-app="money2020.bacon")
       meta(charset="utf-8")
 
     block css
+      link(href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic', rel='stylesheet', type='text/css')
       mixin css("default")
 
     block top-scripts
       mixin js-lib("jquery")
       mixin js-lib("angular")
-      mixin js-lib("matter")
       mixin js-lib("jquery.box2d")
+      mixin js-lib("chance")
+
 
   body
 
     header
-      h1 Bacon {{ route.current.template }}
+      h1 Bacon <span class="sep">|</span><span> Administration Panel</span>
+      i.icon-settings.icon-cog(ng-click="modal.toggle()", ng-class="{active:modal.shown}")
+
+    .modal(ng-show="modal.shown")
+      article.modal-overlay(ng-click="modal.hide()")
+      article.modal-body
+        h1 Which authentications do you want to allow?
+        ul: li(ng-repeat="authentication in authentications"): label
+          input(type="checkbox", ng-model="authentication.checked")
+          .fields
+            .auth-label {{ authentication.label }}
+            .auth-description {{ authentication.description }}
+
 
     main(ng-view)
 

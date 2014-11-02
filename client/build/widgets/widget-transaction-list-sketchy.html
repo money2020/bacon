@@ -1,0 +1,10 @@
+
+<article class="transaction-list transaction-list-sketchy">
+  <h1>{{ state.label }}</h1>
+  <h2>{{ state.stats.count }}</h2>
+  <ul>
+    <li ng-class="{fallanimation:animate}" ng-repeat="(id, transaction) in state.transactions" class="transaction-list-item"><em class="data-name">{{ transaction.data.user_email }}</em>
+      <div class="data-ip">{{ transaction.data.ip }}</div>
+    </li>
+  </ul>
+</article>
